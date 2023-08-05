@@ -68,6 +68,7 @@ export const FlightWidget = () => {
     const { data } = useAppSelector((state) => state.simbrief);
     const [simbriefDataPending, setSimbriefDataPending] = useState(false);
     const [navigraphUsername] = usePersistentProperty('NAVIGRAPH_USERNAME');
+    const [overrideSimBriefUserID] = usePersistentProperty('CONFIG_OVERRIDE_SIMBRIEF_USERID');
 
     const {
         schedIn,
@@ -112,7 +113,7 @@ export const FlightWidget = () => {
         setSimbriefDataPending(true);
 
         try {
-            const action = await fetchSimbriefDataAction(navigraphUsername ?? '');
+            const action = await fetchSimbriefDataAction(navigraphUsername ?? '', overrideSimBriefUserID ?? '');
 
             dispatch(action);
         } catch (e) {

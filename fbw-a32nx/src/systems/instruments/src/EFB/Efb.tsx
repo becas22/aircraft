@@ -85,6 +85,7 @@ const Efb = () => {
     const dispatch = useAppDispatch();
     const simbriefData = useAppSelector((state) => state.simbrief.data);
     const [navigraphUsername] = usePersistentProperty('NAVIGRAPH_USERNAME');
+    const [overrideSimBriefUserID] = usePersistentProperty('CONFIG_OVERRIDE_SIMBRIEF_USERID');
     const [autoSimbriefImport] = usePersistentProperty('CONFIG_AUTO_SIMBRIEF_IMPORT');
 
     const [dc2BusIsPowered] = useSimVar('L:A32NX_ELEC_DC_2_BUS_IS_POWERED', 'bool');
@@ -197,7 +198,7 @@ const Efb = () => {
             }
 
             if ((!simbriefData || !isSimbriefDataLoaded()) && autoSimbriefImport === 'ENABLED') {
-                fetchSimbriefDataAction(navigraphUsername ?? '').then((action) => {
+                fetchSimbriefDataAction(navigraphUsername ?? '', overrideSimBriefUserID ?? '').then((action) => {
                     dispatch(action);
                 }).catch((e) => {
                     toast.error(e.message);
